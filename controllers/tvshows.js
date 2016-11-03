@@ -26,7 +26,7 @@ exports.findById = function(req, res) {
 
 //POST - Insert a new TVShow in the DB
 exports.addTVShow = function(req, res) {  
-    console.log('POST');
+    console.log('insert new data verb--->POST');
     console.log(req.body);
 
     var tvshow = new TVShow({

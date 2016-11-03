@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+	  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js"></script>
+
+
+<head>
+	<title></title>
+</head>
+<body>
+
+
+
+<p> Bienvenido </p>
+
+
+
+
+<div id="alerts"> Sin Mensajes</div>
+		  <form id="login-form">
+		  <label for="username">Username:
+	      <input name="username" type="text" placeholder="Username" required=""/>      
+	      <br/><label>Password:</label>    
+	      <input name="password" type="password" placeholder="Password" required=""/>      
+	      <button onclick="login()" type="button">Login</button>      
+	      <br/>
+	      <span>Or <a href="/signup">Registrate como candidato</a> if you dont have an account</span>
+	      </label>
+	      </h3>
+	      </form>
+
+<br>
+<br>
+  <ul id="online-userslist">--</ul>
+
+
+
+</body>
+
+
+
+
+
+<script type="text/javascript">
+	
+
+	var metapelis =  { "title": "LOST", "year": "2004", "country": "jupites XXXs", "poster": "http://ia.media-imdb.com/images/MMV5BMjA3NzMyMzU1MV5BMl5BanBnXkFtZTcwNjc1ODUwMg@@._V1_SY317_CR17,0,214,317_.jpg", "seasons": "6", "genre": "Sci-Fi", "summary": "Thvcbcvxbxc" };
+	var user = {};
+			function login() {
+			  $.ajax({
+			    type: 'POST',
+			    url: 'http://localhost:3000/api/tvshows',
+			    data: metapelis,
+			    dataType: 'jsonp',
+			  
+			   
+			    success: function (data) {
+			      
+			      if (data.error) {
+			         console.log(data.error);
+			      }
+			      else {
+			      	  console.log("no hubo error");
+			       
+			      }
+			    },
+			  
+			  });
+			}
+
+		
+
+
+
+
+</script>
+
+</html>

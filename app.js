@@ -1,49 +1,55 @@
 
 
+var express         = require("express"),
+    app             = express(),
+    bodyParser      = require("body-parser"),
+    methodOverride  = require("method-override"),
+    mongoose        = require('mongoose');
 
-var express  = require("express"),  
-    bodyParser = require('body-parser');
-    app      = express(),
-    http     = require("http"),
-    server   = http.createServer(app),
-    mongoose = require('mongoose');
-    methodOverride = require("method-override");
 
-app.use(bodyParser.urlencoded({ extended: false }));  
-app.use(bodyParser.json());  
+ app.use(express.static(__dirname + '/public'));
+ var engine = require('consolidate');
+ app.engine('html', engine.mustache);
+app.set('view engine', 'html');
+
+
+// Connection to DB
+mongoose.connect('mongodb://localhost/tvshows', function(err, res) {
+  if(err) throw err;
+  console.log('Connected to Database');
+});
+
+// Middlewares
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(methodOverride());
 
-var router = express.Router();
+// Import Models and controllers
 var models     = require('./models/tvshow')(app, mongoose);
 var TVShowCtrl = require('./controllers/tvshows');
 
-router.get('/', function(req, res) {  
-   res.send("Hello World!");
+// Example Route
+var router = express.Router();
+router.get('/index', function(req, res) {
+  res.render(__dirname +'/views/index.html');
 });
-
 app.use(router);
-
-mongoose.connect('mongodb://localhost/tvshows', function(err, res) {  
-  if(err) {
-    console.log('ERROR: connecting to Database. ' + err);
-  }
-  app.listen(3000, function() {
-    console.log("Node server running on http://localhost:3000");
-  });
-});
-
-
 
 // API routes
 var tvshows = express.Router();
 
-tvshows.route('/tvshows')  
+tvshows.route('/tvshows')
   .get(TVShowCtrl.findAllTVShows)
   .post(TVShowCtrl.addTVShow);
 
-tvshows.route('/tvshows/:id')  
+tvshows.route('/tvshows/:id')
   .get(TVShowCtrl.findById)
   .put(TVShowCtrl.updateTVShow)
   .delete(TVShowCtrl.deleteTVShow);
 
-app.use('/api', tvshows);  
+app.use('/api', tvshows);
+
+// Start server
+app.listen(3000, function() {
+  console.log("Node server running on http://localhost:3000");
+});

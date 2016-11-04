@@ -4,6 +4,7 @@ var express         = require("express"),
     app             = express(),
     bodyParser      = require("body-parser"),
     methodOverride  = require("method-override"),
+    cors = require('cors')
     mongoose        = require('mongoose');
 
 
@@ -11,6 +12,10 @@ var express         = require("express"),
  var engine = require('consolidate');
  app.engine('html', engine.mustache);
 app.set('view engine', 'html');
+
+ 
+
+app.use(cors());
 
 
 // Connection to DB
